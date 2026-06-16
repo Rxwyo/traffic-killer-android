@@ -230,18 +230,31 @@ public class DownloadService extends Service {
 
     private void downloadLoop(String url, int threadIdx) {
         while (sRunning) {
+            HttpURLConnection conn = null;
             try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                conn = (HttpURLConnection) new URL(url).openConnection();
                 conn.setConnectTimeout(10000);
-                conn.setReadTimeout(15000);
+                conn.setReadTimeout(30000);
                 conn.setRequestMethod("GET");
-                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 12)");
-                // 跳过部分数据，模拟持续下载
-                // 注意: 不是所有服务器都支持 Range，这里用流式读取
+                conn.setInstanceFollowRedirects(true);
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+                conn.setRequestProperty("Accept", "*/*");
+                conn.setRequestProperty("Connection", "keep-alive");
+                // 禁用缓存确保每次下载真实数据
+                conn.setUseCaches(false);
+                conn.setRequestProperty("Cache-Control", "no-cache");
 
-                byte[] buffer = new byte[16384]; // 16KB buffer
+                int responseCode = conn.getResponseCode();
+                if (responseCode != 200 && responseCode != 206) {
+                    conn.disconnect();
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                java.io.InputStream in = conn.getInputStream();
+                byte[] buffer = new byte[65536]; // 64KB buffer for higher throughput
                 int bytesRead;
-                while (sRunning && (bytesRead = conn.getInputStream().read(buffer)) != -1) {
+                while (sRunning && (bytesRead = in.read(buffer)) != -1) {
                     sTotalBytes.addAndGet(bytesRead);
 
                     // 检查流量上限
@@ -250,13 +263,15 @@ public class DownloadService extends Service {
                         break;
                     }
                 }
+                in.close();
                 conn.disconnect();
 
-                // 如果还在运行，说明读完了，重新开始一个线程
+                // 文件下载完毕，立即重新开始
                 if (sRunning) {
-                    Thread.sleep(500); // 短暂等待后重连
+                    Thread.sleep(200);
                 }
             } catch (Exception e) {
+                try { if (conn != null) conn.disconnect(); } catch (Exception ignored) {}
                 if (sRunning) {
                     try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
                 }
