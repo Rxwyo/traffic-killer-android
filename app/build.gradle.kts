@@ -30,14 +30,6 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force("org.jetbrains.kotlin:kotlin-stdlib:1.8.22")
-        force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22")
-        force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22")
-    }
-}
-
 dependencies {
     implementation("androidx.core:core:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
