@@ -26,22 +26,14 @@ jobs:
         echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
         echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
         echo "PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH" >> $GITHUB_ENV
-        
-        # List installed SDK components
-        echo "=== Android SDK ==="
-        ls -la $ANDROID_HOME
-        echo "=== cmdline-tools ==="
-        ls -la $ANDROID_HOME/cmdline-tools/
     
-    - name: Install Gradle
-      run: |
-        if ! command -v gradle &> /dev/null; then
-          brew install gradle
-        fi
-        gradle --version
+    - name: Setup Gradle 8.5
+      uses: gradle/gradle-build-action@v3
+      with:
+        gradle-version: 8.5
     
     - name: Build debug APK
-      run: gradle assembleDebug
+      run: gradle assembleDebug --no-daemon
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
