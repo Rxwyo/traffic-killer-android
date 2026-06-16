@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流量杀手</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+        }
+        .header {
+            background: rgba(0,0,0,0.2);
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            color: #333;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            color: #7C3AED;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #7C3AED;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-stop {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box .label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .stat-box .value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .thread-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        .thread-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #7C3AED;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .thread-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7C3AED;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.6;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .status.running {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        .status.stopped {
+            background: rgba(0,0,0,0.05);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">⚡ 流量杀手 v1.0</div>
+    
+    <div class="container">
+        <!-- 测试设置 -->
+        <div class="card">
+            <h3>📡 测试设置</h3>
+            
+            <div class="input-group">
+                <label>选择服务器</label>
+                <select id="serverSelect">
+                    <option value="custom">自定义地址</option>
+                    <option value="https://issuecdn.baidupcs.com/issue/netdisk/apk/BaiduNetdiskSetup_wap_share.apk">百度CDN [高速]</option>
+                    <option value="https://kodo-toolbox.qiniu.com/kodo-browser-Linux-x64-v1.0.17.zip">七牛云CDN [高速]</option>
+                    <option value="https://img.alicdn.com/imgextra/i1/O1CN01xA4P9S1JsW2WEg0e1_!!6000000001084-2-tps-2880-560.png">阿里CDN</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>自定义下载地址</label>
+                <input type="url" id="customUrl" placeholder="https://example.com/file.zip">
+            </div>
+            
+            <div class="input-group">
+                <label>最大流量 (GB，0=不限制)</label>
+                <input type="number" id="maxTraffic" value="0" min="0" step="0.1">
+            </div>
+            
+            <div class="thread-control">
+                <button class="thread-btn" onclick="changeThread(-1)">−</button>
+                <div>
+                    <div style="font-size: 14px; color: #666;">下载线程数</div>
+                    <div class="thread-display" id="threadCount">8</div>
+                </div>
+                <button class="thread-btn" onclick="changeThread(1)">+</button>
+            </div>
+            
+            <button class="btn btn-start" id="btnToggle" onclick="toggleDownload()">开始测试</button>
+        </div>
+        
+        <!-- 实时数据 -->
+        <div class="card">
+            <h3>📊 实时数据</h3>
+            <div class="status stopped" id="status">⏸ 已停止</div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="label">当前速度</div>
+                    <div class="value" id="speed">0 B/s</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">总流量</div>
+                    <div class="value" id="total">0 B</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">运行时间</div>
+                    <div class="value" id="time">00:00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">活跃线程</div>
+                    <div class="value" id="threads">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 使用说明 -->
+        <div class="card">
+            <h3>📖 使用说明</h3>
+            <div class="disclaimer">
+                <p><strong>用途：</strong>测试网络设备（路由器、交换机、AP）在高负载下的稳定性</p>
+                <p><strong>步骤：</strong></p>
+                <p>1. 选择或输入下载地址</p>
+                <p>2. 设置线程数（建议 8-32）</p>
+                <p>3. 点击"开始测试"</p>
+                <p>4. 观察设备表现</p>
+                <p><strong>免责：</strong>仅供测试使用，请遵守法律法规，勿用于非法用途</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let isRunning = false;
+        let threadCount = 8;
+        let totalBytes = 0;
+        let startTime = 0;
+        let activeThreads = 0;
+        let lastSpeedBytes = 0;
+        let lastSpeedTime = 0;
+        let updateInterval = null;
+        
+        function changeThread(delta) {
+            threadCount = Math.max(1, Math.min(64, threadCount + delta));
+            document.getElementById('threadCount').textContent = threadCount;
+        }
+        
+        function toggleDownload() {
+            if (isRunning) {
+                stopDownload();
+            } else {
+                startDownload();
+            }
+        }
+        
+        function startDownload() {
+            const serverUrl = document.getElementById('serverSelect').value;
+            const customUrl = document.getElementById('customUrl').value;
+            const url = serverUrl === 'custom' ? customUrl : serverUrl;
+            
+            if (!url || !url.startsWith('http')) {
+                alert('请输入有效的下载地址');
+                return;
+            }
+            
+            isRunning = true;
+            startTime = Date.now();
+            totalBytes = 0;
+            activeThreads = threadCount;
+            
+            updateUI();
+            updateInterval = setInterval(updateUI, 500);
+            
+            // 启动下载线程
+            for (let i = 0; i < threadCount; i++) {
+                startDownloadThread(url, i);
+            }
+            
+            document.getElementById('btnToggle').textContent = '停止测试';
+            document.getElementById('btnToggle').className = 'btn btn-stop';
+            document.getElementById('status').className = 'status running';
+            document.getElementById('status').textContent = '▶ 运行中';
+        }
+        
+        function startDownloadThread(url, threadId) {
+            const worker = new Worker(URL.createObjectURL(new Blob([`
+                let total = 0;
+                let isRunning = true;
+                
+                self.onmessage = function(e) {
+                    if (e.data === 'stop') {
+                        isRunning = false;
+                    }
+                };
+                
+                async function downloadLoop() {
+                    while (isRunning) {
+                        try {
+                            const response = await fetch(url, { cache: 'no-cache' });
+                            const reader = response.body.getReader();
+                            
+                            while (isRunning) {
+                                const { done, value } = await reader.read();
+                                if (done) break;
+                                total += value.length;
+                                self.postMessage({ type: 'progress', bytes: value.length });
+                            }
+                        } catch (e) {
+                            await new Promise(r => setTimeout(r, 2000));
+                        }
+                    }
+                }
+                
+                downloadLoop();
+            `]], { type: 'application/javascript' })));
+            
+            worker.onmessage = (e) => {
+                if (e.data.type === 'progress') {
+                    totalBytes += e.data.bytes;
+                }
+            };
+        }
+        
+        function stopDownload() {
+            isRunning = false;
+            activeThreads = 0;
+            
+            if (updateInterval) {
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
+            
+            document.getElementById('btnToggle').textContent = '开始测试';
+            document.getElementById('btnToggle').className = 'btn btn-start';
+            document.getElementById('status').className = 'status stopped';
+            document.getElementById('status').textContent = '⏸ 已停止';
+        }
+        
+        function updateUI() {
+            if (!isRunning) return;
+            
+            // 计算速度
+            const now = Date.now();
+            const speed = (totalBytes - lastSpeedBytes) * 1000 / (now - lastSpeedTime || 1);
+            lastSpeedBytes = totalBytes;
+            lastSpeedTime = now;
+            
+            // 更新显示
+            document.getElementById('speed').textContent = formatSpeed(speed);
+            document.getElementById('total').textContent = formatSize(totalBytes);
+            document.getElementById('time').textContent = formatTime(now - startTime);
+            document.getElementById('threads').textContent = activeThreads;
+        }
+        
+        function formatSpeed(bytesPerSec) {
+            if (bytesPerSec < 1024) return bytesPerSec.toFixed(0) + ' B/s';
+            if (bytesPerSec < 1048576) return (bytesPerSec / 1024).toFixed(1) + ' KB/s';
+            return (bytesPerSec / 1048576).toFixed(1) + ' MB/s';
+        }
+        
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1073741824) return (bytes / 1048576).toFixed(1) + ' MB';
+            return (bytes / 1073741824).toFixed(2) + ' GB';
+        }
+        
+        function formatTime(ms) {
+            const s = Math.floor(ms / 1000);
+            const m = Math.floor(s / 60);
+            const h = Math.floor(m / 60);
+            if (h > 0) return h + ':' + ('0' + (m % 60)).slice(-2) + ':' + ('0' + (s % 60)).slice(-2);
+            return ('0' + m).slice(-2) + ':' + ('0' + (s % 60)).slice(-2);
+        }
+    </script>
+</body>
+</html>

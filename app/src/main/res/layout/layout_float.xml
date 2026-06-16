@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floatRoot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_float_window"
+    android:padding="12dp">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:id="@+id/floatTitleBar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚡ 流量杀手"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/btnFloatClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="×"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:background="?attr/selectableItemBackground" />
+    </LinearLayout>
+
+    <!-- 速度 -->
+    <TextView
+        android:id="@+id/tvFloatSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="↓ 0 B/s   ↑ 0 B/s"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#E0E7FF"
+        android:layout_marginBottom="4dp" />
+
+    <!-- 总流量 -->
+    <TextView
+        android:id="@+id/tvFloatTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="总流量: 0 B"
+        android:textSize="11sp"
+        android:textColor="#C7D2FE" />
+
+</LinearLayout>
