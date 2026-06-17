@@ -29,26 +29,26 @@ public class MainActivity extends Activity {
     private long[] speedHistory = new long[CHART_POINTS];
     private int speedHistoryIndex = 0;
 
-    // 预设服务器列表 — 使用大文件确保可持续高速下载
+    // 预设服务器列表 — 亚洲优先，推荐高速HTTP节点
     private static final String[] SERVER_NAMES = {
-        "Cloudflare [推荐·Global]",
-        "Cachefly [Global]",
-        "Hetzner [Europe]",
-        "Linode [Global]",
-        "OVH [Europe]",
+        "Vultr东京 [Asia·Japan]",
+        "Linode新加坡 [Asia·SG]",
+        "Linode东京 [Asia·Japan]",
+        "DigitalOcean新加坡 [Asia·SG]",
+        "SoftLayer香港 [Asia·HK]",
+        "LeaseWeb香港 [Asia·HK]",
         "Speedtest.tele2.net [Europe]",
-        "ThinkBroadband [UK]",
         "自定义地址..."
     };
 
     private static final String[] SERVER_URLS = {
-        "https://speed.cloudflare.com/__down?bytes=10737418240",
-        "https://cachefly.cachefly.net/100mb.test",
-        "https://speed.hetzner.de/100MB.bin",
-        "https://speedtest.london.linode.com/100MB-london.bin",
-        "https://proof.ovh.net/files/100Mb.dat",
+        "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
+        "http://speedtest-sin1.linode.com/100MB-sin.zip",
+        "http://speedtest-tok1.linode.com/100MB-tok.zip",
+        "http://speedtest-sgp1.digitalocean.com/100MB-sgp-test.bin",
+        "http://speedtest-sin2.softlayer.com/downloads/speedtest/Speedtest_10MB.zip",
+        "http://mirror.hk.leaseweb.net/speedtest/100MB.bin",
         "http://speedtest.tele2.net/100MB.zip",
-        "http://speedtest.ftp.otenet.gr/files/test1Gb.db",
         null  // custom
     };
 
