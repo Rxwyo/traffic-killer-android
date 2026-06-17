@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 
     // 预设服务器列表 — 亚洲优先，推荐高速HTTP节点
     private static final String[] SERVER_NAMES = {
-        "Vultr东京 [Asia·Japan]",
+        "Vultr东京 [推荐·Asia]",
         "Linode新加坡 [Asia·SG]",
         "Linode东京 [Asia·Japan]",
         "DigitalOcean新加坡 [Asia·SG]",
