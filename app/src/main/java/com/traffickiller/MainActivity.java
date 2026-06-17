@@ -31,20 +31,30 @@ public class MainActivity extends Activity {
 
     // 预设服务器列表 — 国内优先，兼顾海外节点
     private static final String[] SERVER_NAMES = {
-        "华为云·Ubuntu [推荐·国内]",
-        "华为云·CentOS [国内]",
+        "阿里云·Ubuntu [推荐·国内]",
+        "腾讯云·CentOS [国内]",
+        "华为云·Ubuntu [国内]",
+        "清华·Ubuntu [国内·教育网]",
+        "北交大·CentOS [国内·教育网]",
         "中科大·Deepin [国内·教育网]",
         "南京大学·Ubuntu [国内·教育网]",
+        "网易·Ubuntu [国内]",
+        "搜狐·CentOS [国内]",
         "Vultr东京 [Asia·Japan]",
         "Speedtest.tele2.net [Europe]",
         "自定义地址..."
     };
 
     private static final String[] SERVER_URLS = {
+        "https://mirrors.aliyun.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
+        "https://mirrors.cloud.tencent.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
         "https://mirrors.huaweicloud.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirrors.huaweicloud.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
+        "https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
+        "https://mirror.bjtu.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
         "https://mirrors.ustc.edu.cn/deepin-cd/23/deepin-desktop-community-23-amd64.iso",
         "https://mirrors.nju.edu.cn/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
+        "https://mirrors.163.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
+        "https://mirrors.sohu.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
         "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
         "http://speedtest.tele2.net/100MB.zip",
         null  // custom
