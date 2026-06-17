@@ -30,32 +30,44 @@ public class MainActivity extends Activity {
     private int speedHistoryIndex = 0;
 
     // 预设服务器列表 — 国内优先，兼顾海外节点
+    // 选择标准：大体积文件(>500MB)、HTTP协议、不限速、持续维护
     private static final String[] SERVER_NAMES = {
-        "阿里云·Ubuntu [推荐·国内]",
-        "腾讯云·CentOS [国内]",
+        "清华·Ubuntu [推荐·教育网]",
+        "中科大·Ubuntu [教育网]",
         "华为云·Ubuntu [国内]",
-        "清华·Ubuntu [国内·教育网]",
-        "北交大·CentOS [国内·教育网]",
-        "中科大·Deepin [国内·教育网]",
-        "南京大学·Ubuntu [国内·教育网]",
         "网易·Ubuntu [国内]",
-        "搜狐·CentOS [国内]",
+        "南京大学·Ubuntu [教育网]",
+        "阿里云·Ubuntu [国内]",
+        "腾讯云·Ubuntu [国内]",
+        "浙大·Ubuntu [教育网]",
+        "东软·Fedora [教育网]",
         "Vultr东京 [Asia·Japan]",
         "Speedtest.tele2.net [Europe]",
         "自定义地址..."
     };
 
     private static final String[] SERVER_URLS = {
-        "https://mirrors.aliyun.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirrors.cloud.tencent.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
-        "https://mirrors.huaweicloud.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirror.bjtu.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
-        "https://mirrors.ustc.edu.cn/deepin-cd/23/deepin-desktop-community-23-amd64.iso",
-        "https://mirrors.nju.edu.cn/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirrors.163.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
-        "https://mirrors.sohu.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
+        // 清华 TUNA — 教育网首选，稳定高速，~4.7GB ISO
+        "https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 中科大 USTC — 教育网备选，~4.7GB ISO
+        "https://mirrors.ustc.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 华为云 — 偶发418但大部分时间可用，~4.7GB ISO
+        "https://mirrors.huaweicloud.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 网易 163 — 老牌镜像站，稳定，~4.7GB ISO
+        "https://mirrors.163.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 南京大学 — 教育网节点，~4.7GB ISO
+        "https://mirrors.nju.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 阿里云 — 国内主流，~4.7GB ISO
+        "https://mirrors.aliyun.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 腾讯云 — Ubuntu(非已下架的CentOS)，~4.7GB ISO
+        "https://mirrors.cloud.tencent.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 浙大 ZJU — 教育网补充节点，~4.7GB ISO
+        "https://mirrors.zju.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
+        // 东软 NEUSOFT — 教育网+Fedora路线，~2.2GB ISO
+        "https://mirrors.neusoft.edu.cn/fedora/releases/41/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-41-1.4.iso",
+        // Vultr 东京 — 海外测试节点，100MB
         "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
+        // Speedtest.tele2.net — 欧洲测试节点，100MB
         "http://speedtest.tele2.net/100MB.zip",
         null  // custom
     };
