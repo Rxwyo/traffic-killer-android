@@ -29,25 +29,23 @@ public class MainActivity extends Activity {
     private long[] speedHistory = new long[CHART_POINTS];
     private int speedHistoryIndex = 0;
 
-    // 预设服务器列表 — 亚洲优先，推荐高速HTTP节点
+    // 预设服务器列表 — 国内优先，兼顾海外节点
     private static final String[] SERVER_NAMES = {
-        "Vultr东京 [推荐·Asia]",
-        "Linode新加坡 [Asia·SG]",
-        "Linode东京 [Asia·Japan]",
-        "DigitalOcean新加坡 [Asia·SG]",
-        "SoftLayer香港 [Asia·HK]",
-        "LeaseWeb香港 [Asia·HK]",
+        "华为云·Ubuntu [推荐·国内]",
+        "华为云·CentOS [国内]",
+        "中科大·Deepin [国内·教育网]",
+        "南京大学·Ubuntu [国内·教育网]",
+        "Vultr东京 [Asia·Japan]",
         "Speedtest.tele2.net [Europe]",
         "自定义地址..."
     };
 
     private static final String[] SERVER_URLS = {
+        "https://mirrors.huaweicloud.com/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
+        "https://mirrors.huaweicloud.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso",
+        "https://mirrors.ustc.edu.cn/deepin-cd/23/deepin-desktop-community-23-amd64.iso",
+        "https://mirrors.nju.edu.cn/ubuntu-releases/22.04/ubuntu-22.04.5-desktop-amd64.iso",
         "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
-        "http://speedtest-sin1.linode.com/100MB-sin.zip",
-        "http://speedtest-tok1.linode.com/100MB-tok.zip",
-        "http://speedtest-sgp1.digitalocean.com/100MB-sgp-test.bin",
-        "http://speedtest-sin2.softlayer.com/downloads/speedtest/Speedtest_10MB.zip",
-        "http://mirror.hk.leaseweb.net/speedtest/100MB.bin",
         "http://speedtest.tele2.net/100MB.zip",
         null  // custom
     };
