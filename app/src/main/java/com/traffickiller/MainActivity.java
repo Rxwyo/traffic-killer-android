@@ -29,49 +29,42 @@ public class MainActivity extends Activity {
     private long[] speedHistory = new long[CHART_POINTS];
     private int speedHistoryIndex = 0;
 
-    // 预设服务器列表 — 国内优先，兼顾海外节点
-    // 选择标准：大体积文件(>500MB)、HTTP协议、不限速、持续维护
+    // 预设服务器列表 — 原电脑版 CDN 节点
     private static final String[] SERVER_NAMES = {
-        "清华·Ubuntu [推荐·教育网]",
-        "中科大·Ubuntu [教育网]",
-        "华为云·Ubuntu [国内]",
-        "网易·Ubuntu [国内]",
-        "南京大学·Ubuntu [教育网]",
-        "阿里云·Ubuntu [国内]",
-        "腾讯云·Ubuntu [国内]",
-        "浙大·Ubuntu [教育网]",
-        "东软·Fedora [教育网]",
-        "百度·Ubuntu [国内]",
-        "Vultr东京 [Asia·Japan]",
-        "Speedtest.tele2.net [Europe]",
+        "百度CDN [高速]",
+        "七牛云CDN [高速]",
+        "阿里CDN",
+        "腾讯CDN",
+        "字节跳动CDN",
+        "京东CDN",
+        "网易CDN",
+        "小米CDN",
+        "Cloudflare Speed [Global]",
+        "Cachefly Test [Global]",
         "自定义地址..."
     };
 
     private static final String[] SERVER_URLS = {
-        // 清华 TUNA — 教育网首选，稳定高速，~4.7GB ISO
-        "https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 中科大 USTC — 教育网备选，~4.7GB ISO
-        "https://mirrors.ustc.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 华为云 — 偶发418但大部分时间可用，~4.7GB ISO
-        "https://mirrors.huaweicloud.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 网易 163 — 老牌镜像站，稳定，~4.7GB ISO
-        "https://mirrors.163.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 南京大学 — 教育网节点，~4.7GB ISO
-        "https://mirrors.nju.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 阿里云 — 国内主流，~4.7GB ISO
-        "https://mirrors.aliyun.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 腾讯云 — Ubuntu(非已下架的CentOS)，~4.7GB ISO
-        "https://mirrors.cloud.tencent.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 浙大 ZJU — 教育网补充节点，~4.7GB ISO
-        "https://mirrors.zju.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // 东软 NEUSOFT — 教育网+Fedora路线，~2.2GB ISO
-        "https://mirrors.neusoft.edu.cn/fedora/releases/41/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-41-1.4.iso",
-        // 百度 Baidu — 国内大厂，~4.7GB ISO
-        "https://mirrors.baidu.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
-        // Vultr 东京 — 海外测试节点，100MB
-        "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
-        // Speedtest.tele2.net — 欧洲测试节点，100MB
-        "http://speedtest.tele2.net/100MB.zip",
+        // 百度 CDN — 百度网盘安装包，支持断点续传
+        "https://issuecdn.baidupcs.com/issue/netdisk/apk/BaiduNetdiskSetup_wap_share.apk",
+        // 七牛云 CDN — kodo-browser Linux 版，支持断点续传
+        "https://kodo-toolbox.qiniu.com/kodo-browser-Linux-x64-v1.0.17.zip",
+        // 阿里 CDN — 淘宝图片 CDN，静态资源
+        "https://img.alicdn.com/imgextra/i1/O1CN01xA4P9S1JsW2WEg0e1_!!6000000001084-2-tps-2880-560.png",
+        // 腾讯 CDN — 内部游戏资源
+        "https://game.gtimg.cn/images/nz/web202106/index/bc_part1.gif",
+        // 字节跳动 CDN — 内部静态资源
+        "https://lf9-cdn-tos.bytecdntp.com/cdn/yuntu-index/1.0.4/case/maiteng/detailbg.png",
+        // 京东 CDN — 商城图片资源
+        "https://img10.360buyimg.com/live/jfs/t1/128947/12/26918/1361527/6260e71bE0ee85af5/ecaa17ea8dd3dddb.jpg",
+        // 网易 CDN — 新闻图片
+        "https://pic-bucket.ws.126.net/photo/0003/2022-04-24/H5N2082C00AJ0003NOS.jpg",
+        // 小米 CDN — 应用安装包
+        "https://cnbj0.fds.api.xiaomi.com/b2c-data-mishop/9b9d95e1ece27d5ec75205e5fe719ba5.apk",
+        // Cloudflare Speed Test — 全球节点，1GB 测试文件
+        "https://speed.cloudflare.com/__down?bytes=1073741824",
+        // Cachefly — 全球 CDN 测试节点，100MB 测试文件
+        "https://cachefly.cachefly.net/100mb.test",
         null  // custom
     };
 
