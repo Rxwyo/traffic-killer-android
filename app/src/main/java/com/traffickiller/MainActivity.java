@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         "腾讯云·Ubuntu [国内]",
         "浙大·Ubuntu [教育网]",
         "东软·Fedora [教育网]",
+        "百度·Ubuntu [国内]",
         "Vultr东京 [Asia·Japan]",
         "Speedtest.tele2.net [Europe]",
         "自定义地址..."
@@ -65,6 +66,8 @@ public class MainActivity extends Activity {
         "https://mirrors.zju.edu.cn/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
         // 东软 NEUSOFT — 教育网+Fedora路线，~2.2GB ISO
         "https://mirrors.neusoft.edu.cn/fedora/releases/41/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-41-1.4.iso",
+        // 百度 Baidu — 国内大厂，~4.7GB ISO
+        "https://mirrors.baidu.com/ubuntu-releases/24.04/ubuntu-24.04.1-desktop-amd64.iso",
         // Vultr 东京 — 海外测试节点，100MB
         "http://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
         // Speedtest.tele2.net — 欧洲测试节点，100MB
