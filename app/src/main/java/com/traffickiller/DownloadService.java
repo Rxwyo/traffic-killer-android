@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
+import android.util.Log;
 
 public class DownloadService extends Service {
 
@@ -245,7 +246,9 @@ public class DownloadService extends Service {
                 conn.setRequestProperty("Cache-Control", "no-cache");
 
                 int responseCode = conn.getResponseCode();
+                Log.d("TrafficKiller", "DL-" + threadIdx + " response=" + responseCode + " url=" + url);
                 if (responseCode != 200 && responseCode != 206) {
+                    Log.w("TrafficKiller", "DL-" + threadIdx + " bad response " + responseCode);
                     conn.disconnect();
                     Thread.sleep(1000);
                     continue;
@@ -271,6 +274,7 @@ public class DownloadService extends Service {
                     Thread.sleep(200);
                 }
             } catch (Exception e) {
+                Log.e("TrafficKiller", "DL-" + threadIdx + " error: " + e.getMessage(), e);
                 try { if (conn != null) conn.disconnect(); } catch (Exception ignored) {}
                 if (sRunning) {
                     try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
