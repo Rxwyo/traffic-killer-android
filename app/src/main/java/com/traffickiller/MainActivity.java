@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
         stopService(new Intent(this, DownloadService.class));
         isRunning = false;
         btnToggle.setText("开始测试");
-        btnToggle.setBackgroundTintList(getResources().getColorStateList(0xFF7C3AED, null));
+        btnToggle.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF7C3AED));
         stopUiUpdater();
     }
 
